@@ -1,0 +1,29 @@
+<html>
+<h1 align="center">Crane Inspection Form</h1>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+{{> bootstrap}}
+
+<body>
+	{{thanks}}
+
+	<div style="padding: 0px 0px 0px 20px">
+	<a href="http://localhost:3000/dashboard">Dashboard</a><br><br>
+	</div>
+
+	<form action="/craneinspection" method="POST" align="center">
+		Name:<br>
+		<input type="text" name="name"></input><br>
+		Equipment Serial:<br>
+		<input type="text" name="serial"></input><br>
+		Inspection status:<br>
+		<input type="radio" name="inspection_status" value="pass">pass</input>
+		<input type="radio" name="inspection_status" value="fail">fail</input><br>
+		<input type="submit" value="Submit"></input><br>
+		
+
+	</form>
+
+</body>
+</html>

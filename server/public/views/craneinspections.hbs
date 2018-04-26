@@ -1,0 +1,34 @@
+<html>
+<h1 align="center">Crane Inspections</h1>
+
+{{> bootstrap}}
+
+<body>
+	<div style="padding: 0px 0px 0px 20px">
+	<a href="http://localhost:3000/dashboard">Dashboard</a><br><br>
+	</div>
+	<table style="width: 100%;border: 1px solid black">
+		<tr>
+			<th style="border: 1px solid black;text-align: center">Name</th>
+			<th style="border: 1px solid black;text-align: center">Serial</th>
+			<th style="border: 1px solid black;text-align: center">Status</th>
+		</tr>
+	{{#each inspections}}
+		<tr>
+			<td align="center" style="border: 1px solid black;">{{this.name}}</td>
+			<td align="center" style="border: 1px solid black">{{this.serial}}</td>
+			<td  align="center" style="border: 1px solid black">{{this.inspection_status}}</td>
+	{{/each}}
+
+		</tr>
+
+
+		
+
+	</table>
+		
+
+	</form>
+
+</body>
+</html>
