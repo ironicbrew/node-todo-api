@@ -10,7 +10,9 @@ const todos = [{
 	text: 'First test todo'
 }, {
 	_id: new ObjectID(),
-	text: 'Second test todo'
+	text: 'Second test todo',
+	completed: true,
+	completedAt: 333
 }];
 
 beforeEach((done) => {
@@ -129,6 +131,42 @@ describe('DELETE /todos/:id', () => {
 	it('should return 400 for non-object IDs', (done) => {
 		request(app)
 			.delete(`/todos/123`)
+			.expect(404)
+			.end(done);
+	});
+});
+
+describe('PATCH /todos/:id', () => {
+	it('should patch a specific todo doc', (done) => {
+		var patchJSON = {
+						_id: new ObjectID(),
+						text: 'Second test todo',
+						completed: true
+						};
+		request(app)
+			.patch(`/todos/${todos[1]._id.toHexString()}`)
+			.send(patchJSON)
+			.expect(200)
+			.expect((res) => {
+				expect(res.body.todo.completed).toBe(true);
+			})
+			.end(done);
+	});
+
+	it('should return 404 if todo not found', (done) => {
+
+		var hexID = new ObjectID().toHexString();
+
+		request(app)
+			.patch(`/todos/${hexID}`)
+			.expect(404)
+			.end(done);
+	});
+
+	it('should return 400 for non-object IDs', (done) => {
+		request(app)
+			.patch(`/todos/5ae13cf8135cc11400e7bb84444`)
+			.send({goobs: 'goobers'})
 			.expect(404)
 			.end(done);
 	});
