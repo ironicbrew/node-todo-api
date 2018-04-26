@@ -23,6 +23,10 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'public/views'))
 hbs.registerPartials(__dirname + '/public/views/partials');
 
+app.get('/', (req, res) => {
+	res.render('dashboard.hbs');
+});
+
 app.post('/todos', (req, res) => {
 	var todo = new Todo({
 		text: req.body.text

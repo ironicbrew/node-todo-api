@@ -1,12 +1,31 @@
-<html>
-<h1 align="center">Crane Inspections</h1>
+<!doctype html>
+<html lang="en">
+
+{{> head}}
 
 {{> bootstrap}}
 
 <body>
-	<div style="padding: 0px 0px 0px 20px">
-	<a href="dashboard">Dashboard</a><br><br>
+
+<!-- Page Title-->
+
+	<div class="container-fluid">
+		<h1 align="center">Crane Inspections</h1>
 	</div>
+
+		<div class="container" align="center" style="padding: 0px 0px 20px 20px;">
+			<div class="row">
+				<div class="col-sm">
+					<a href="dashboard">Dashboard</a>
+				</div>
+				<div class="col-sm">
+					<a href="craneinspection">Perform Crane inspection</a>
+				</div>
+			</div>
+		</div>
+
+
+	<!--Table of all Crane inspections-->
 	<table style="width: 100%;border: 1px solid black">
 		<tr>
 			<th style="border: 1px solid black;text-align: center">Name</th>

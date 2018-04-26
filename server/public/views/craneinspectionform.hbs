@@ -1,16 +1,42 @@
-<html>
-<h1 align="center">Crane Inspection Form</h1>
+<!doctype html>
+<html lang="en">
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{{> head}}
 
 {{> bootstrap}}
 
 <body>
-	{{thanks}}
 
-	<div style="padding: 0px 0px 0px 20px">
-	<a href="dashboard">Dashboard</a><br><br>
+<!-- Page Title-->
+
+	<div class="container-fluid">
+		<h1 align="center">Crane Inspection Form</h1>
 	</div>
+
+		<div class="container" align="center">
+			<div class="row">
+				<div class="col-sm">
+					<a href="dashboard">Dashboard</a>
+				</div>
+				<div class="col-sm">
+					<a href="craneinspections">View all inspections</a>
+				</div>
+			</div>
+		</div>
+
+<!--Thank you message if arriving via POST-->
+
+	<div class="container-fluid" id="thanks">
+		<h1 align="center">{{thanks}}</h1>
+	</div>
+
+<!--Delay for thank you message-->
+
+	<script>
+	jQuery("#thanks").delay('500').fadeOut('slow');
+	</script>
+
+<!--Crane inspection form-->
 
 	<form action="/craneinspection" method="POST" align="center">
 		Name:<br>
