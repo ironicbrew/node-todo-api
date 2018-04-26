@@ -11,23 +11,8 @@ var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 var {Inspection} = require('./models/inspection');
 
-/////////////
-
-
-// doc = new PDFDocument
-
-// doc.pipe(fs.createWriteStream('./output.pdf'))
-
-// doc.fontSize(25)
-// 	.text('Hello World', 100, 100)
-
-// doc.end()
-
-
-
-/////////////
-
 var app = express();
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({extended: false}));
@@ -50,8 +35,8 @@ app.post('/todos', (req, res) => {
 	});
 });
 
-app.listen(3000, () => {
-	console.log('Started on port 3000');
+app.listen(port, () => {
+	console.log(`Started on port ${port}`);
 })
 
 app.get('/todos', (req, res) => {
