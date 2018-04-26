@@ -77,6 +77,23 @@ app.get('/todos/:id', (req, res) => {
 	}
 });
 
+app.delete('/todos/:id', (req, res) => {
+	var id = req.params.id;
+
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('404, ID not valid');
+	} else {
+		Todo.findByIdAndRemove(id).then((todo) => {
+			if (!todo) {
+				res.status(400).send('todo not found');
+			} else {
+				res.send({todo});
+			}
+		});
+	}
+
+});
+
 app.get('/craneinspection', (req, res) => {
 	res.render('craneinspectionform.hbs');
 });
