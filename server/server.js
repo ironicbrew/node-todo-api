@@ -14,6 +14,7 @@ var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 var {authenticate} = require('./middleware/authenticate');
 var {Inspection} = require('./models/inspection');
+var {Atcoinspection} = require('./models/atco-inspection');
 
 var app = express();
 const port = process.env.PORT;
@@ -207,8 +208,16 @@ app.post('/users/login', (req, res) => {
 });
 
 app.post('/webhook/craneinspections', (req, res) => {
-	console.log(req.body);
-	res.send(req.body);
+	// console.log(req.body);
+	var atcoInspection = Atcoinspection({
+		id: req.body["Crane ID#"]
+	});
+
+	atcoInspection.save().then((doc) => {
+		res.send(doc);
+	}, (e) => {
+		res.status(400).send(e);
+	});
 });
 
 module.exports = {app};
