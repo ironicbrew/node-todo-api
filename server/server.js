@@ -214,6 +214,7 @@ app.post('/webhook/craneinspections', (req, res) => {
 	});
 
 	atcoInspection.save().then((doc) => {
+		console.log('You are a genius');
 		res.send(doc);
 	}, (e) => {
 		res.status(400).send(e);
