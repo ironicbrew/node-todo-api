@@ -206,6 +206,10 @@ app.post('/users/login', (req, res) => {
 
 });
 
+app.post('/webhook/craneinspections', (req, res) => {
+	console.log(req.body);
+});
+
 module.exports = {app};
 
 
