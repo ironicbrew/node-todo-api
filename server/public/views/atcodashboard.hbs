@@ -9,22 +9,21 @@
 
 <!-- Page Title-->
 <div class="container">
-	<h1 align="center">Dashboard</h1>
+	<h1 align="center">Crane Inspection Dashboard</h1>
 </div>
 
 <table style="width: 100%;border: 1px solid black">
 	<tr>
 		<th style="border: 1px solid black;text-align: center">ID</th>
+		<th style="border: 1px solid black;text-align: center">Inspected?</th>
 	</tr>
-{{#each atcoinspections}}
+	{{#each cranes}}
 	<tr>
+
 		<td align="center" style="border: 1px solid black;">{{this.id}}</td>
-{{/each}}
-
+		<td align="center" style="border: 1px solid black;">{{#if this.status}}&#9989;{{else}}&#10060;{{/if}}</td>
 	</tr>
-
-
-	
+	{{/each}}
 
 </table>
 

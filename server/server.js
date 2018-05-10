@@ -15,6 +15,7 @@ var {User} = require('./models/user');
 var {authenticate} = require('./middleware/authenticate');
 var {Inspection} = require('./models/inspection');
 var {Atcoinspection} = require('./models/atco-inspection');
+var {cranes} = require('./models/cranes');
 
 var app = express();
 const port = process.env.PORT;
@@ -225,9 +226,26 @@ module.exports = {app};
 app.get('/atcoinspections', (req, res) => {
 	var now = new Date();
 	var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-	
+
+
 	Atcoinspection.find({date: {$gte: today}}).then((atcoinspections) => {
-		res.render('atcodashboard.hbs', {atcoinspections});
+		for (i = 0; i < atcoinspections.length ; i++) {
+			if (atcoinspections[i].id === cranes[0].id) {
+				cranes[0]['status'] = true;
+			} else if (atcoinspections[i].id === cranes[1].id) {
+				cranes[1]['status'] = true;
+			} else if (atcoinspections[i].id === cranes[2].id) {
+				cranes[2]['status'] = true;
+			} else if (atcoinspections[i].id === cranes[3].id) {
+				cranes[3]['status'] = true;
+			} else if (atcoinspections[i].id === cranes[4].id) {
+				cranes[4]['status'] = true;
+			} else if (atcoinspections[i].id === cranes[5].id) {
+				cranes[5]['status'] = true;
+			}
+		}
+		console.log(cranes)
+		res.render('atcodashboard.hbs', {cranes});
 	}, (e) => {
 		res.status(400).send(e);
 	});
