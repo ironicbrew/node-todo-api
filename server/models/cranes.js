@@ -1,10 +1,4 @@
 var cranes = [
-{id: '1234', status: false},
-{id: '1', status: false },
-{id: '2', status: false },
-{id: '3', status: false },
-{id: '4', status: false },
-{id: '5', status: false },
 {id: 'A3110501', status: false },
 {id: 'AS-01-001-10B', status: false },
 {id: 'AS-01-001-11B', status: false },
