@@ -229,6 +229,8 @@ app.get('/atcoinspections', (req, res) => {
 
 
 	Atcoinspection.find({date: {$gte: today}}).then((atcoinspections) => {
+		console.log(atcoinspections);
+		console.log(cranes);
 		for (i = 0; i < atcoinspections.length ; i++) {
 			if (atcoinspections[i].id === cranes[0].id) {
 				cranes[0]['status'] = true;
@@ -244,7 +246,6 @@ app.get('/atcoinspections', (req, res) => {
 				cranes[5]['status'] = true;
 			}
 		}
-		console.log(cranes)
 		res.render('atcodashboard.hbs', {cranes});
 	}, (e) => {
 		res.status(400).send(e);
