@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+{{> head}}
+
+{{> bootstrap}}
+
+<body>
+
+<!-- Page Title-->
+<div class="container">
+	<h1 align="center">Dashboard</h1>
+</div>
+
+<table style="width: 100%;border: 1px solid black">
+	<tr>
+		<th style="border: 1px solid black;text-align: center">ID</th>
+	</tr>
+{{#each atcoinspections}}
+	<tr>
+		<td align="center" style="border: 1px solid black;">{{this.id}}</td>
+{{/each}}
+
+	</tr>
+
+
+	
+
+</table>
+
+</body>
+</html>

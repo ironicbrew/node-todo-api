@@ -223,11 +223,11 @@ app.post('/webhook/craneinspections', (req, res) => {
 module.exports = {app};
 
 app.get('/atcoinspections', (req, res) => {
-	var today = new Date();
-	var tomorrow = new Date();
+	var now = new Date();
+	var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 	
-	Atcoinspection.find({"created_on": {"$gte": today, "$lt": tomorrow.setDate(tomorrow.getDate() + 1)}}).then((atcoinspections) => {
-		res.send({atcoinspections});
+	Atcoinspection.find({date: {$gte: today}}).then((atcoinspections) => {
+		res.render('atcodashboard.hbs', {atcoinspections});
 	}, (e) => {
 		res.status(400).send(e);
 	});
