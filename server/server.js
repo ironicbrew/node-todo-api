@@ -214,13 +214,24 @@ app.post('/webhook/craneinspections', (req, res) => {
 	});
 
 	atcoInspection.save().then((doc) => {
-		console.log('You are a genius');
 		res.send(doc);
 	}, (e) => {
 		res.status(400).send(e);
 	});
 });
 
+module.exports = {app};
+
+app.get('/atcoinspections', (req, res) => {
+	var today = new Date();
+	var tomorrow = new Date();
+	
+	Atcoinspection.find({"created_on": {"$gte": today, "$lt": tomorrow.setDate(tomorrow.getDate() + 1)}}).then((atcoinspections) => {
+		res.send({atcoinspections});
+	}, (e) => {
+		res.status(400).send(e);
+	});
+});
 module.exports = {app};
 
 
