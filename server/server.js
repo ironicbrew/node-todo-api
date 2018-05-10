@@ -232,19 +232,25 @@ app.get('/atcoinspections', (req, res) => {
 		console.log(atcoinspections);
 		console.log(cranes);
 		for (i = 0; i < atcoinspections.length ; i++) {
-			if (atcoinspections[i].id === cranes[0].id) {
-				cranes[0]['status'] = true;
-			} else if (atcoinspections[i].id === cranes[1].id) {
-				cranes[1]['status'] = true;
-			} else if (atcoinspections[i].id === cranes[2].id) {
-				cranes[2]['status'] = true;
-			} else if (atcoinspections[i].id === cranes[3].id) {
-				cranes[3]['status'] = true;
-			} else if (atcoinspections[i].id === cranes[4].id) {
-				cranes[4]['status'] = true;
-			} else if (atcoinspections[i].id === cranes[5].id) {
-				cranes[5]['status'] = true;
+			for (j = 0; j < cranes.length ; j++) {
+				if (atcoinspections[i].id === cranes[j].id) {
+				cranes[j]['status'] = true;
+				}
 			}
+
+			// if (atcoinspections[i].id === cranes[0].id) {
+			// 	cranes[0]['status'] = true;
+			// } else if (atcoinspections[i].id === cranes[1].id) {
+			// 	cranes[1]['status'] = true;
+			// } else if (atcoinspections[i].id === cranes[2].id) {
+			// 	cranes[2]['status'] = true;
+			// } else if (atcoinspections[i].id === cranes[3].id) {
+			// 	cranes[3]['status'] = true;
+			// } else if (atcoinspections[i].id === cranes[4].id) {
+			// 	cranes[4]['status'] = true;
+			// } else if (atcoinspections[i].id === cranes[5].id) {
+			// 	cranes[5]['status'] = true;
+			// }
 		}
 		res.render('atcodashboard.hbs', {cranes});
 	}, (e) => {
