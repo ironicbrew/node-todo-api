@@ -229,8 +229,8 @@ app.get('/atcoinspections', (req, res) => {
 
 
 	Atcoinspection.find({date: {$gte: today}}).then((atcoinspections) => {
-		console.log(atcoinspections);
-		console.log(cranes);
+		var completed = atcoinspections.length;
+		var notCompleted = cranes.length - completed;
 		for (i = 0; i < atcoinspections.length ; i++) {
 			for (j = 0; j < cranes.length ; j++) {
 				if (atcoinspections[i].id === cranes[j].id) {
@@ -238,7 +238,7 @@ app.get('/atcoinspections', (req, res) => {
 				}
 			}
 		}
-		res.render('atcodashboard.hbs', {cranes});
+		res.render('atcodashboard.hbs', {cranes, completed, notCompleted});
 	}, (e) => {
 		res.status(400).send(e);
 	});
