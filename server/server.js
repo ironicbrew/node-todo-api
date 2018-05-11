@@ -231,6 +231,9 @@ app.get('/atcoinspections', (req, res) => {
 	Atcoinspection.find({date: {$gte: today}}).then((atcoinspections) => {
 		var completed = atcoinspections.length;
 		var notCompleted = cranes.length - completed;
+
+		console.log(completed, notCompleted);
+
 		for (i = 0; i < atcoinspections.length ; i++) {
 			for (j = 0; j < cranes.length ; j++) {
 				if (atcoinspections[i].id === cranes[j].id) {
