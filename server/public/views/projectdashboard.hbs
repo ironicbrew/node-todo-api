@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+{{> head}}
+
+{{> bootstrap}}
+
+<body>
+		
+		<script src="/socket.io/socket.io.js"></script>
+
+<!-- Page Title-->
+<div class="container">
+	<h1 align="center">Project Dashboard</h1>
+</div>
+	{{#each projects}}
+<div style="margin: 20px;">
+<table style="width: 100%;border: 1px solid black;">
+	<tr>
+		<th style="border: 1px solid black;text-align: center">Unit #</th>
+		<th style="border: 1px solid black;text-align: center">Task</th>
+		<th style="border: 1px solid black;text-align: center">Prep</th>
+		<th style="border: 1px solid black;text-align: center">Material</th>
+		<th style="border: 1px solid black;text-align: center">Install</th>
+	</tr>
+	{{#each this.tasks}}
+	<tr>
+
+		<td align="center" style="border: 1px solid black;">{{../id}}</td>
+		<td align="center" style="border: 1px solid black;">{{this.name}}</td>
+		<td class={{../id}}-{{this.name}}-prep align="center" style="border: 1px solid black;">{{#if this.prep}}&#9989;{{else}}&#10060;{{/if}}</td>
+		<td class={{../id}}-{{this.name}}-material align="center" style="border: 1px solid black;">{{#if this.material}}&#9989;{{else}}&#10060;{{/if}}</td>
+		<td class={{../id}}-{{this.name}}-install align="center" style="border: 1px solid black;">{{#if this.install}}&#9989;{{else}}&#10060;{{/if}}</td>
+	</tr>
+	{{/each}}
+	{{/each}}
+<br>
+</table>
+
+<div>
+
+
+		<script>
+			var socket = io();
+
+			socket.on('newTask', function (task) {
+				console.log('new Task Complete!', task);
+
+
+				$(document).ready(function() {
+				$("td." + task.id + "-" + task.task + "-" + task.taskStep).replaceWith('<td align="center" style="border: 1px solid black;">&#9989;</td>')
+				});
+
+				});
+
+
+		</script>
+
+</body>
+</html>

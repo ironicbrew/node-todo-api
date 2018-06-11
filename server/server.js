@@ -18,6 +18,7 @@ var {authenticate} = require('./middleware/authenticate');
 var {Inspection} = require('./models/inspection');
 var {Atcoinspection} = require('./models/atco-inspection');
 var {cranes} = require('./models/cranes');
+var {projects} = require('./models/projects')
 
 var app = express();
 const port = process.env.PORT;
@@ -231,6 +232,20 @@ app.post('/webhook/craneinspections', (req, res) => {
 	});
 });
 
+app.post('/webhook/taskcomplete', (req, res) => {
+	console.log(req.body);
+	var newTask = {
+		id: req.body["Unit"],
+		task: req.body["Task"],
+		taskStep: req.body["Task Step"]
+	};
+
+	io.emit('newTask', newTask);
+
+	res.send('success!');
+
+});
+
 module.exports = {app};
 
 app.get('/atcoinspections', (req, res) => {
@@ -253,6 +268,12 @@ app.get('/atcoinspections', (req, res) => {
 		res.status(400).send(e);
 	});
 });
+
+app.get('/atcoprojects', (req, res) => {
+
+		res.render('projectdashboard.hbs', {projects});
+});
+
 module.exports = {app};
 
 
