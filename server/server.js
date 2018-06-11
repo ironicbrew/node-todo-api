@@ -6,8 +6,10 @@ const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const hbs = require('hbs');
 const path = require('path');
+const http = require('http');
 const _ = require('lodash');
 const bcrypt = require('bcryptjs');
+const socketIO = require('socket.io')
 
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
@@ -19,6 +21,8 @@ var {cranes} = require('./models/cranes');
 
 var app = express();
 const port = process.env.PORT;
+var server = http.createServer(app);
+var io = socketIO(server);
 
 app.use(bodyParser.json('application/json'));
 // app.use(bodyParser.urlencoded({extended: false}, 'application/x-www-form-urlencoded'));
@@ -28,6 +32,10 @@ app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'public/views'))
 hbs.registerPartials(__dirname + '/public/views/partials');
+
+io.on('connection', (socket) => {
+	console.log('new user connected');
+});
 
 app.get('/', (req, res) => {
 	res.render('dashboard.hbs');
@@ -45,7 +53,7 @@ app.post('/todos', (req, res) => {
 	});
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
 	console.log(`Started on port ${port}`);
 })
 
@@ -132,15 +140,15 @@ app.get('/craneinspection', (req, res) => {
 
 app.post('/craneinspection', (req, res) => {
 
-	doc = new PDFDocument
+	// doc = new PDFDocument
 
-	doc.pipe(fs.createWriteStream('./inspection.pdf'))
+	// doc.pipe(fs.createWriteStream('./inspection.pdf'))
 
-	doc.fontSize(25)
-		.text(`${req.body.name} ${req.body.serial} ${req.body.inspection_status}`, 200, 200)
+	// doc.fontSize(25)
+	// 	.text(`${req.body.name} ${req.body.serial} ${req.body.inspection_status}`, 200, 200)
 
 
-	doc.end()
+	// doc.end()
 
 	var inspection = new Inspection({
 		name: req.body.name,
@@ -214,6 +222,8 @@ app.post('/webhook/craneinspections', (req, res) => {
 		id: req.body["Crane ID#"]
 	});
 
+	io.emit('newInspection', atcoInspection);
+
 	atcoInspection.save().then((doc) => {
 		res.send(doc);
 	}, (e) => {
@@ -227,12 +237,9 @@ app.get('/atcoinspections', (req, res) => {
 	var now = new Date();
 	var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-
 	Atcoinspection.find({date: {$gte: today}}).then((atcoinspections) => {
 		var completed = atcoinspections.length;
 		var notCompleted = cranes.length - completed;
-
-		console.log(completed, notCompleted);
 
 		for (i = 0; i < atcoinspections.length ; i++) {
 			for (j = 0; j < cranes.length ; j++) {

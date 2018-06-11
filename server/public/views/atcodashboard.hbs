@@ -6,6 +6,9 @@
 {{> bootstrap}}
 
 <body>
+		
+		<script src="/socket.io/socket.io.js"></script>
+
 		<div id="piechart" align="center"></div>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -23,7 +26,10 @@
 		]);
 
 		  // Optional; add a title and set the width and height of the chart
-		  var options = {'title':'Inspections', 'width':550, 'height':400};
+		  var options = {'title':'Inspections', 
+		  				 'width':550, 
+		  				 'height':400,
+		  				 'colors':['#43ea1e', '#f91d1d']};
 
 		  // Display the chart inside the <div> element with id="piechart"
 		  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -46,12 +52,32 @@
 	<tr>
 
 		<td align="center" style="border: 1px solid black;">{{this.id}}</td>
-		<td align="center" style="border: 1px solid black;">{{#if this.status}}&#9989;{{else}}&#10060;{{/if}}</td>
+		<td class={{this.id}} align="center" style="border: 1px solid black;">{{#if this.status}}&#9989;{{else}}&#10060;{{/if}}</td>
 	</tr>
 	{{/each}}
 
 </table>
 <div>
+
+		<script>
+			var socket = io();
+
+			socket.on('connect', function () {
+				console.log('connected to server');
+			});
+
+			socket.on('newInspection', function (inspection) {
+				console.log('new Inspection Recieved!', inspection.id);
+
+				var queryId = inspection.id;
+				console.log(queryId);
+
+
+			$(document).ready(function() {
+				$("td." + queryId).replaceWith('<td align="center" style="border: 1px solid black;">&#9989;</td>')
+				});
+			});
+		</script>
 
 </body>
 </html>
