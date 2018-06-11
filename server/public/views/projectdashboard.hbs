@@ -28,9 +28,9 @@
 
 		<td align="center" style="border: 1px solid black;">{{../id}}</td>
 		<td align="center" style="border: 1px solid black;">{{this.name}}</td>
-		<td class={{../id}}-{{this.name}}-prep align="center" style="border: 1px solid black;">{{#if this.prep}}&#9989;{{else}}&#10060;{{/if}}</td>
-		<td class={{../id}}-{{this.name}}-material align="center" style="border: 1px solid black;">{{#if this.material}}&#9989;{{else}}&#10060;{{/if}}</td>
-		<td class={{../id}}-{{this.name}}-install align="center" style="border: 1px solid black;">{{#if this.install}}&#9989;{{else}}&#10060;{{/if}}</td>
+		<td class={{../id}}-{{this.name}}-prep align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit={{../id}}&Task={{this.name}}&Task%20Step=prep target="_blank">{{#if this.prep}}&#9989;{{else}}&#10060;{{/if}}</a></td>
+		<td class={{../id}}-{{this.name}}-material align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit={{../id}}&Task={{this.name}}&Task%20Step=material target="_blank">{{#if this.material}}&#9989;{{else}}&#10060;{{/if}}</a></td>
+		<td class={{../id}}-{{this.name}}-install align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit={{../id}}&Task={{this.name}}&Task%20Step=install target="_blank">{{#if this.install}}&#9989;{{else}}&#10060;{{/if}}</a></td>
 	</tr>
 	{{/each}}
 	{{/each}}
