@@ -28,9 +28,9 @@
 
 		<td align="center" style="border: 1px solid black;">{{../id}}</td>
 		<td align="center" style="border: 1px solid black;">{{this.name}}</td>
-		<td class={{../id}}-{{this.name}}-prep align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit={{../id}}&Task={{this.name}}&Task%20Step=prep target="_blank">{{#if this.prep}}&#9989;{{else}}&#10060;{{/if}}</a></td>
-		<td class={{../id}}-{{this.name}}-material align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit={{../id}}&Task={{this.name}}&Task%20Step=material target="_blank">{{#if this.material}}&#9989;{{else}}&#10060;{{/if}}</a></td>
-		<td class={{../id}}-{{this.name}}-install align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit={{../id}}&Task={{this.name}}&Task%20Step=install target="_blank">{{#if this.install}}&#9989;{{else}}&#10060;{{/if}}</a></td>
+		<td class={{../id}}-{{this.name}}-prep align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit={{../id}}&Task={{this.name}}&Task%20Step=prep&Status=In_Progress target="_blank">{{#if this.prep}}&#9989;{{else}}&#10060;{{/if}}</a></td>
+		<td class={{../id}}-{{this.name}}-material align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit={{../id}}&Task={{this.name}}&Task%20Step=material&Status=In_Progress target="_blank">{{#if this.material}}&#9989;{{else}}&#10060;{{/if}}</a></td>
+		<td class={{../id}}-{{this.name}}-install align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit={{../id}}&Task={{this.name}}&Task%20Step=install&Status=In_Progress target="_blank">{{#if this.install}}&#9989;{{else}}&#10060;{{/if}}</a></td>
 	</tr>
 	{{/each}}
 	{{/each}}
@@ -47,8 +47,19 @@
 				console.log('new Task Complete!', task);
 
 
-				$(document).ready(function() {
-				$("td." + task.id + "-" + task.task + "-" + task.taskStep).replaceWith('<td align="center" style="border: 1px solid black;">&#9989;</td>')
+				// $(document).ready(function() {
+				// 	if (task.status) {
+				// $("td." + task.id + "-" + task.task + "-" + task.taskStep).replaceWith('<td align="center" style="border: 1px solid black;">&#9989;</td>')
+				// 	} else {
+				// 		$("td." + task.id + "-" + task.task + "-" + task.taskStep).replaceWith('<td align="center" style="border: 1px solid black;">&#10024;</td>')
+				// 	}
+
+					$(document).ready(function() {
+					if (task.status) {
+					$("td." + task.id + "-" + task.task + "-" + task.taskStep).replaceWith('<td class=' + task.id + '-' + task.task + '-' + task.taskStep + ' align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit=' + task.id + '&Task=' + task.task + '&Task%20Step=' + task.taskStep + ' target="_blank">&#9989;</a></td>')
+					} else {
+						$("td." + task.id + "-" + task.task + "-" + task.taskStep).replaceWith('<td class=' + task.id + '-' + task.task + '-' + task.taskStep + ' align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit=' + task.id + '&Task=' + task.task + '&Task%20Step=' + task.taskStep + '&Status=Complete target="_blank">&#10024;</a></td>')
+					}
 				});
 
 				});

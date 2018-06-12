@@ -234,11 +234,23 @@ app.post('/webhook/craneinspections', (req, res) => {
 
 app.post('/webhook/taskcomplete', (req, res) => {
 	console.log(req.body);
+
+	var status = req.body["Status"];
+
+	if (status === "In_Progress") {
+		status = false
+	} else {
+		status = true
+	}
+
 	var newTask = {
 		id: req.body["Unit"],
 		task: req.body["Task"],
-		taskStep: req.body["Task Step"]
+		taskStep: req.body["Task Step"],
+		status: status
 	};
+
+	console.log(status);
 
 	io.emit('newTask', newTask);
 
