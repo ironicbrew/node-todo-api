@@ -98,7 +98,7 @@ app.patch('/todos/:id', (req, res) => {
 
 	if (!ObjectID.isValid(id)) {
 		res.status(404).send('404, ID not valid');
-	} 
+	}
 
 	if (_.isBoolean(body.completed) && body.completed) {
 		body.completedAt = new Date().getTime();
@@ -218,7 +218,9 @@ app.post('/users/login', (req, res) => {
 });
 
 app.post('/webhook/craneinspections', (req, res) => {
-	// console.log(req.body);
+
+
+
 	var atcoInspection = Atcoinspection({
 		id: req.body["Crane ID#"]
 	});
@@ -232,8 +234,26 @@ app.post('/webhook/craneinspections', (req, res) => {
 	});
 });
 
+app.post('/webhook/toolbox', (req, res) => {
+
+	toolboxId = req.body["Shop"].replace(/\s/g, '');
+
+	var atcoInspection = Atcoinspection({
+		id: toolboxId
+	});
+
+	console.log(atcoInspection);
+
+	io.emit('newInspection', atcoInspection);
+
+	atcoInspection.save().then((doc) => {
+		res.send(doc);
+	}, (e) => {
+		res.status(400).send(e);
+	});
+});
+
 app.post('/webhook/taskcomplete', (req, res) => {
-	console.log(req.body);
 
 	var status = req.body["Status"];
 
@@ -275,6 +295,7 @@ app.get('/atcoinspections', (req, res) => {
 				}
 			}
 		}
+
 		res.render('atcodashboard.hbs', {cranes, completed, notCompleted});
 	}, (e) => {
 		res.status(400).send(e);
@@ -287,7 +308,3 @@ app.get('/atcoprojects', (req, res) => {
 });
 
 module.exports = {app};
-
-
-
-

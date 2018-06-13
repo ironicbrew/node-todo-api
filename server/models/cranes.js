@@ -28,7 +28,19 @@ var cranes = [
 {id: 'AS-01-009-21', status: false },
 {id: 'AS-01-009-22', status: false },
 {id: 'AS-01-009-23', status: false },
-{id: 'AS-01-009-24', status: false }
+{id: 'AS-01-009-24', status: false },
+{id: 'Shipping/Receiving', status: false},
+{id: '01-Mill', status: false},
+{id: '02-Floors', status: false},
+{id: '03-Prefab', status: false},
+{id: '04-Walls1', status: false},
+{id: '05-Walls2', status: false},
+{id: '06-Setup', status: false},
+{id: '07-Roofs', status: false},
+{id: '09-FinalFinish', status: false},
+{id: '1A05-Plumbing', status: false},
+{id: '1A06-Skinning', status: false},
+{id: '1A08-HVAC', status: false}
 ];
 
 module.exports = {cranes};

@@ -6,10 +6,10 @@
 {{> bootstrap}}
 
 <body>
-		
+
 		<script src="/socket.io/socket.io.js"></script>
 
-		<div id="piechart" align="center"></div>
+		<!-- <div id="piechart" align="center"></div>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 		<script type="text/javascript">
@@ -26,8 +26,8 @@
 		]);
 
 		  // Optional; add a title and set the width and height of the chart
-		  var options = {'title':'Inspections', 
-		  				 'width':550, 
+		  var options = {'title':'Inspections',
+		  				 'width':550,
 		  				 'height':400,
 		  				 'colors':['#43ea1e', '#f91d1d']};
 
@@ -35,11 +35,11 @@
 		  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 		  chart.draw(data, options);
 		}
-		</script>
+		</script> -->
 
 <!-- Page Title-->
 <div class="container">
-	<h1 align="center">Inspection Dashboard</h1>
+	<h1 align="center">Daily Dashboard</h1>
 </div>
 
 <div style="margin: 20px;">
@@ -52,7 +52,7 @@
 	<tr>
 
 		<td align="center" style="border: 1px solid black;">{{this.id}}</td>
-		<td class={{this.id}} align="center" style="border: 1px solid black;">{{#if this.status}}&#9989;{{else}}&#10060;{{/if}}</td>
+		<td id={{this.id}} align="center" style="border: 1px solid black;">{{#if this.status}}&#9989;{{else}}&#10060;{{/if}}</td>
 	</tr>
 	{{/each}}
 
@@ -70,11 +70,11 @@
 				console.log('new Inspection Recieved!', inspection.id);
 
 				var queryId = inspection.id;
-				console.log(queryId);
-
+				var queryIdEscaped = queryId.replace("&", "\\&").replace("/", "\\/")
 
 			$(document).ready(function() {
-				$("td." + queryId).replaceWith('<td align="center" style="border: 1px solid black;">&#9989;</td>')
+				// $(`td.[class=${queryId}]`).replaceWith('<td align="center" style="border: 1px solid black;">&#9989;</td>')
+				$(`#${queryIdEscaped}`).html("&#9989;")
 				});
 			});
 		</script>
