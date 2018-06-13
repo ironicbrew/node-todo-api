@@ -236,10 +236,53 @@ app.post('/webhook/craneinspections', (req, res) => {
 
 app.post('/webhook/carrierinspections', (req, res) => {
 
-
-
 	var atcoInspection = Atcoinspection({
 		id: req.body["Carrier ID#"]
+	});
+
+	io.emit('newInspection', atcoInspection);
+
+	atcoInspection.save().then((doc) => {
+		res.send(doc);
+	}, (e) => {
+		res.status(400).send(e);
+	});
+});
+
+app.post('/webhook/forkliftinspections', (req, res) => {
+
+	var atcoInspection = Atcoinspection({
+		id: req.body["Forklift ID#"]
+	});
+
+	io.emit('newInspection', atcoInspection);
+
+	atcoInspection.save().then((doc) => {
+		res.send(doc);
+	}, (e) => {
+		res.status(400).send(e);
+	});
+});
+
+app.post('/webhook/powerpalletinspections', (req, res) => {
+
+	var atcoInspection = Atcoinspection({
+		id: req.body["Power Pallet ID#"]
+	});
+
+	io.emit('newInspection', atcoInspection);
+
+	atcoInspection.save().then((doc) => {
+		res.send(doc);
+	}, (e) => {
+		res.status(400).send(e);
+	});
+});
+
+app.post('/webhook/scissorliftinspections', (req, res) => {
+
+	var atcoInspection = Atcoinspection({
+		id: req.body["Scissor Lift ID#"]
 	});
 
 	io.emit('newInspection', atcoInspection);
