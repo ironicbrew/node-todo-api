@@ -45,12 +45,13 @@
 <div style="margin: 20px;">
 <table style="width: 100%;border: 1px solid black;">
 	<tr>
+		<th style="border: 1px solid black;text-align: center">Type</th>
 		<th style="border: 1px solid black;text-align: center">ID</th>
 		<th style="border: 1px solid black;text-align: center">Inspected?</th>
 	</tr>
 	{{#each cranes}}
 	<tr>
-
+		<td align="center" style="border: 1px solid black;">{{this.type}}</td>
 		<td align="center" style="border: 1px solid black;">{{this.id}}</td>
 		<td id={{this.id}} align="center" style="border: 1px solid black;">{{#if this.status}}&#9989;{{else}}&#10060;{{/if}}</td>
 	</tr>
