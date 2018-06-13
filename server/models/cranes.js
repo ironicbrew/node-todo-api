@@ -40,7 +40,15 @@ var cranes = [
 {id: 'AS-01-009-21', type: 'Crane Inspection', status: false },
 {id: 'AS-01-009-22', type: 'Crane Inspection', status: false },
 {id: 'AS-01-009-23', type: 'Crane Inspection', status: false },
-{id: 'AS-01-009-24', type: 'Crane Inspection', status: false }
+{id: 'AS-01-009-24', type: 'Crane Inspection', status: false },
+{id: '1', type: 'Carrier Inspection', status: false },
+{id: '2', type: 'Carrier Inspection', status: false },
+{id: '3', type: 'Carrier Inspection', status: false },
+{id: '4', type: 'Carrier Inspection', status: false },
+{id: '5', type: 'Carrier Inspection', status: false },
+{id: '6', type: 'Carrier Inspection', status: false },
+{id: '7', type: 'Carrier Inspection', status: false },
+{id: '8', type: 'Carrier Inspection', status: false }
 ];
 
 module.exports = {cranes};
