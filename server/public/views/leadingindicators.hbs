@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+
+<style>
+</style>
+
+{{> head}}
+
+{{> bootstrap}}
+
+<body>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<!-- Page Title-->
+<div class="container">
+	<div class="col-xs-10 col-xs-offset-1">
+		<h1 align="center">Leading Indicators</h1>
+	</div>
+</div>
+
+<div id="bar-chart">
+	<h1>{{ totalToolboxes }}</h1>
+	<h1>{{ totalCraneInspection }}</h1>
+</div>
+
+<div id="chart_div"></div>
+
+<script>
+
+var socket = io();
+
+google.charts.load('current', {packages: ['corechart', 'bar']});
+google.charts.setOnLoadCallback(drawMultSeries);
+
+var currentToolboxes = {{ inspectionTotals.currentToolboxes }}
+var currentCraneInspection = {{ inspectionTotals.currentCraneInspection }}
+var currentCarrierInspection = {{ inspectionTotals.currentCarrierInspection }}
+var currentForkliftInspection = {{ inspectionTotals.currentForkliftInspection }}
+var currentPowerPalletInspection = {{ inspectionTotals.currentPowerPalletInspection }}
+var currentScissorLiftInspection = {{ inspectionTotals.currentScissorLiftInspection }}
+var currentflha = {{ inspectionTotals.currentflha }}
+
+function drawMultSeries() {
+	var data = new google.visualization.arrayToDataTable([
+		['Type', 'Total', {role: 'annotation'}],
+		['Toolbox', currentToolboxes, currentToolboxes],
+		['Crane Inspection', currentCraneInspection, currentCraneInspection],
+		['Forklift Inspection', currentForkliftInspection, currentForkliftInspection],
+		['Power Pallet Inspection', currentPowerPalletInspection, currentPowerPalletInspection],
+		['Scissor Lift Inspection', currentScissorLiftInspection, currentScissorLiftInspection],
+		['Carrier Inspection', currentCarrierInspection, currentCarrierInspection],
+		['FLHA', currentflha, currentflha],
+		]);
+
+	var options = {
+		alwaysOutside: true
+	}
+				// data.addColumn('string', 'Type');
+				// data.addColumn('number', '#');
+				//
+				// data.addRows([
+				// ['Toolbox', currentToolboxes],
+				// ['Crane Inspection', 0],
+				// ['Forklift Inspection', 0],
+				// ['Power Pallet Inspection', 0],
+				// ['Scissor Lift Inspection', 0],
+				// ['Carrier Inspection', 0],
+				// ['FLHA', 0],
+				// ]);
+
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+								 { calc: "stringify",
+									 sourceColumn: 1,
+									 type: "string",
+									 role: "annotation" },
+								 2]);
+
+      var chart = new google.visualization.ColumnChart(
+        document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+
+		socket.on('newInspection', function (inspection) {
+			console.log('new Inspection Recieved!', inspection.type);
+
+			switch (inspection.type) {
+				case 'Toolbox':
+				currentToolboxes = currentToolboxes + 1;
+				break;
+				case 'Crane Inspection':
+				currentCraneInspection = currentCraneInspection + 1;
+				break;
+				case 'Carrier Inspection':
+				currentCarrierInspection = currentCarrierInspection + 1;
+				break;
+				case 'Forklift Inspection':
+				currentForkliftInspection = currentForkliftInspection + 1;
+				break;
+				case 'Power Pallet Inspection':
+				currentPowerPalletInspection = currentPowerPalletInspection + 1;
+				break;
+				case 'Scissor Lift Inspection':
+				currentScissorLiftInspection = currentScissorLiftInspection + 1;
+				break;
+				case 'flha':
+				currentflha = currentflha + 1;
+				break;
+			};
+
+			// console.log(currentToolboxes, currentCraneInspection, currentCarrierInspection, currentForkliftInspection, currentPowerPalletInspection, currentScissorLiftInspection);
+
+			drawMultSeries();
+		});
+
+</script>
+
+</body>
+</html>

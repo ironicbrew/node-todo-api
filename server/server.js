@@ -222,7 +222,8 @@ app.post('/webhook/craneinspections', (req, res) => {
 
 
 	var atcoInspection = Atcoinspection({
-		id: req.body["Crane ID#"]
+		id: req.body["Crane ID#"],
+		type: "Crane Inspection"
 	});
 
 	io.emit('newInspection', atcoInspection);
@@ -237,7 +238,8 @@ app.post('/webhook/craneinspections', (req, res) => {
 app.post('/webhook/carrierinspections', (req, res) => {
 
 	var atcoInspection = Atcoinspection({
-		id: req.body["Carrier ID#"]
+		id: req.body["Carrier ID#"],
+		type: "Carrier Inspection"
 	});
 
 	io.emit('newInspection', atcoInspection);
@@ -252,7 +254,8 @@ app.post('/webhook/carrierinspections', (req, res) => {
 app.post('/webhook/forkliftinspections', (req, res) => {
 
 	var atcoInspection = Atcoinspection({
-		id: req.body["Forklift ID#"]
+		id: req.body["Forklift ID#"],
+		type: "Forklift Inspection"
 	});
 
 	io.emit('newInspection', atcoInspection);
@@ -267,7 +270,8 @@ app.post('/webhook/forkliftinspections', (req, res) => {
 app.post('/webhook/powerpalletinspections', (req, res) => {
 
 	var atcoInspection = Atcoinspection({
-		id: req.body["Power Pallet ID#"]
+		id: req.body["Power Pallet ID#"],
+		type: "Power Pallet Inspection"
 	});
 
 	io.emit('newInspection', atcoInspection);
@@ -282,7 +286,8 @@ app.post('/webhook/powerpalletinspections', (req, res) => {
 app.post('/webhook/scissorliftinspections', (req, res) => {
 
 	var atcoInspection = Atcoinspection({
-		id: req.body["Scissor Lift ID#"]
+		id: req.body["Scissor Lift ID#"],
+		type: "Scissor Lift Inspection"
 	});
 
 	io.emit('newInspection', atcoInspection);
@@ -299,10 +304,25 @@ app.post('/webhook/toolbox', (req, res) => {
 	toolboxId = req.body["Shop"].replace(/\s/g, '');
 
 	var atcoInspection = Atcoinspection({
-		id: toolboxId
+		id: toolboxId,
+		type: "Toolbox"
 	});
 
-	console.log(atcoInspection);
+	io.emit('newInspection', atcoInspection);
+
+	atcoInspection.save().then((doc) => {
+		res.send(doc);
+	}, (e) => {
+		res.status(400).send(e);
+	});
+});
+
+app.post('/webhook/flha', (req, res) => {
+
+	var atcoInspection = Atcoinspection({
+		id: 'flha',
+		type: 'flha'
+	});
 
 	io.emit('newInspection', atcoInspection);
 
@@ -362,9 +382,44 @@ app.get('/atcoinspections', (req, res) => {
 	});
 });
 
+app.get('/atcoinspections/leadingindicators', (req, res) => {
+
+	var now = new Date();
+	var thisMonth = new Date(now.getFullYear(), now.getMonth());
+
+		Atcoinspection.find({date: {$gte: thisMonth}}).then((inspectionArray) => {
+
+			console.log (inspectionArray);
+    var currentToolboxes = inspectionArray.filter(inspection => inspection.type === 'Toolbox' ).length;
+		var currentCraneInspection = inspectionArray.filter(inspection => inspection.type === 'Crane Inspection' ).length;
+		var currentCarrierInspection = inspectionArray.filter(inspection => inspection.type === 'Carrier Inspection' ).length;
+		var currentForkliftInspection = inspectionArray.filter(inspection => inspection.type === 'Forklift Inspection' ).length;
+		var currentPowerPalletInspection = inspectionArray.filter(inspection => inspection.type === 'Power Pallet Inspection' ).length;
+		var currentScissorLiftInspection = inspectionArray.filter(inspection => inspection.type === 'Scissor Lift Inspection' ).length;
+		var currentflha = inspectionArray.filter(inspection => inspection.type === 'flha' ).length;
+
+
+		var inspectionTotals = {
+			currentCraneInspection,
+			currentCarrierInspection,
+			currentForkliftInspection,
+			currentPowerPalletInspection,
+			currentScissorLiftInspection,
+			currentToolboxes,
+			currentflha
+		}
+
+		res.render('leadingindicators.hbs', {inspectionTotals});
+
+		}, (e) => {
+			res.status(400).send(e);
+		});
+
+});
+
 app.get('/atcoprojects', (req, res) => {
 
-		res.render('projectdashboard.hbs', {projects});
+		res.render('leadingindicators.hbs', {projects});
 });
 
 module.exports = {app};
