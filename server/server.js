@@ -9,7 +9,8 @@ const path = require('path');
 const http = require('http');
 const _ = require('lodash');
 const bcrypt = require('bcryptjs');
-const socketIO = require('socket.io')
+const socketIO = require('socket.io');
+const request = require('request');
 
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
@@ -219,12 +220,35 @@ app.post('/users/login', (req, res) => {
 
 app.post('/webhook/craneinspections', (req, res) => {
 
+	var today = new Date();
+	var id = req.body["Crane ID#"];
+	var type = "Crane Inspection";
+
+	var options = {
+		method: 'POST',
+		uri: 'https://api.powerbi.com/beta/f1e31150-57dd-4b78-9208-3c24b9366a23/datasets/a7123003-8343-45ac-80a5-000245b02135/rows?key=wByWRSyXTUIBj%2F13kNef3HPX2wZRapNieID9FGXbcjN%2FNgc3y1Z10KLWn4tC7yL18ZWXEhIfgWZE4E5c6%2BRpnA%3D%3D',
+		json: true,
+		body: [{"CraneID": id, "Type": type}],
+	};
+
+	console.log(options.body);
 
 
 	var atcoInspection = Atcoinspection({
 		id: req.body["Crane ID#"],
 		type: "Crane Inspection"
 	});
+
+	request(options, (err, message, body) => {
+			if (!err) {
+				// console.log(message);
+				console.log('success');
+				// console.log(body);
+	} else {
+		console.log(err);
+	}
+
+});
 
 	io.emit('newInspection', atcoInspection);
 
@@ -388,7 +412,7 @@ app.get('/atcoinspections/leadingindicators', (req, res) => {
 	var thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
 		Atcoinspection.find({date: {$gte: thisMonth}}).then((inspectionArray) => {
-			
+
     var currentToolboxes = inspectionArray.filter(inspection => inspection.type === 'Toolbox' ).length;
 		var currentCraneInspection = inspectionArray.filter(inspection => inspection.type === 'Crane Inspection' ).length;
 		var currentCarrierInspection = inspectionArray.filter(inspection => inspection.type === 'Carrier Inspection' ).length;
@@ -421,6 +445,31 @@ app.get('/atcoinspections/leadingindicators', (req, res) => {
 app.get('/atcoprojects', (req, res) => {
 
 		res.render('leadingindicators.hbs', {projects});
+});
+
+app.get('/powerbi', (req, res) => {
+
+
+
+	request({
+		method: 'POST',
+		uri: 'https://api.powerbi.com/beta/f1e31150-57dd-4b78-9208-3c24b9366a23/datasets/78bf9043-9068-41a9-a57c-f19c303ac9cc/rows?key=yOEpwIZNXHsHTnJD4sgFXzD3USGHjMfk5s%2Fjqa0U3OuV5g%2BLbS1%2Fd9oPvDL3BuW9KWH8nd0jh%2FE3Gfda8AHQNQ%3D%3D',
+		json: true,
+		body: [{"Crane ID#": "Victory is mine", "Date Submitted" :"2018-05-15T19:33:06.970Z"}],
+	}, (err, message, body) => {
+			if (!err) {
+				// console.log(message);
+				console.log('success');
+				res.render('dashboard.hbs', {projects});
+				// console.log(body);
+	} else {
+		console.log(err);
+	}
+
+});
+
+
+
 });
 
 module.exports = {app};
