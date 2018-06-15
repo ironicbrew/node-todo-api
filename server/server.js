@@ -385,11 +385,10 @@ app.get('/atcoinspections', (req, res) => {
 app.get('/atcoinspections/leadingindicators', (req, res) => {
 
 	var now = new Date();
-	var thisMonth = new Date(now.getFullYear(), now.getMonth());
+	var thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
 		Atcoinspection.find({date: {$gte: thisMonth}}).then((inspectionArray) => {
-
-			console.log (inspectionArray);
+			
     var currentToolboxes = inspectionArray.filter(inspection => inspection.type === 'Toolbox' ).length;
 		var currentCraneInspection = inspectionArray.filter(inspection => inspection.type === 'Crane Inspection' ).length;
 		var currentCarrierInspection = inspectionArray.filter(inspection => inspection.type === 'Carrier Inspection' ).length;
@@ -397,6 +396,8 @@ app.get('/atcoinspections/leadingindicators', (req, res) => {
 		var currentPowerPalletInspection = inspectionArray.filter(inspection => inspection.type === 'Power Pallet Inspection' ).length;
 		var currentScissorLiftInspection = inspectionArray.filter(inspection => inspection.type === 'Scissor Lift Inspection' ).length;
 		var currentflha = inspectionArray.filter(inspection => inspection.type === 'flha' ).length;
+
+		console.log(inspectionTotals)
 
 
 		var inspectionTotals = {
