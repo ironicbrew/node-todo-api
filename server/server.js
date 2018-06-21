@@ -262,17 +262,65 @@ app.post('/webhook/craneinspections', (req, res) => {
 app.post('/webhook/monthlyhsestewardshipreport', (req, res) => {
 
 	var today = new Date();
-	var location = req.body["Work Location"];
+	var workLocation = req.body["Work Location"];
 	var type = "HSE-monthlystewardshipreport";
+	var personReporting = req.body["Person Reporting"];
+	var reportingPeriod = req.body["Reporting Period"];
+	var totalNumberOfEmployees = req.body["Total Number of Employees"];
+	var totalHoursWorkedByASLMfg = req.body["Total Hours Worked By ASL Mfg."];
+	var totalHoursWorkedByOffice = req.body["Total Hours Worked By Office"];
+	var totalHoursWorkedByContractors = req.body["Total Hours Worked By Contractors"];
+	var restrictedWorkInjuries = req.body["Restricted Work Injuries"];
+	var totalDaysOnRestrictedWork = req.body["Total Days on Restricted Work"];
+	var lostTimeInjuries = req.body["Lost Time Injuries"];
+	var totalDaysLostTime = req.body["Total Days Lost Time"];
+	var conductedFieldLevelHazardAnalysis = req.body["Conducted Field Level Hazard Analysis (FLHA)/Field Level Risk Assessment (FLRA)"];
+	var conductedToolboxOrTailboardMeetings = req.body["Conducted Toolbox or Tailboard Meetings"];
+	var reviewOrDevelopment = req.body["Review or Development – Safe Work Practices (SWP) or Safe Job Procedure (SJP) or Job Safety Analysis (JSA) or Job Hazard Analysis (JHA)"];
+	var conductedSafetyMeetings = req.body["Conducted Safety Meetings"];
+	var observations = req.body["Observations"];
+	var documentedSafetyFocusedASLandClientManagementTours = req.body["Documented Safety Focused ASL and Client Management Tours"];
+	var equipmentAndBuildingInspections = req.body["Equipment and Building Inspections"];
+	var JHSCMeetings = req.body["Joint Health & Safety Committee Meetings (JHSC)"];
+	var orientations = req.body["Site/Facility HSE Orientations"];
+	var totalDocumentedTrainingHours  = req.body["Total Documented HSE Training Hours "];
+	var employeeSafetyRecognitionPrograms = req.body["Employee Safety Recognition Programs"];
+
 
 	var options = {
 		method: 'POST',
 		uri: 'https://api.powerbi.com/beta/f1e31150-57dd-4b78-9208-3c24b9366a23/datasets/0d1a016e-8d44-4275-88e8-caa9543879fb/rows?key=UNmwLRjoLYyr7JmEX9uy5b4jwyLUNQ474zWqmabwgqgF65qBBOlMlhv1NkaCAl3L1HsIcmvayNeWRmU7KdSAdA%3D%3D',
 		json: true,
-		body: [{"location": location, "date": today}],
+		body: [{"workLocation": workLocation,
+		"dateSubmitted": today,
+		"type": type,
+		"personReporting": personReporting,
+		"reportingPeriod": reportingPeriod,
+		"totalNumberOfEmployees": totalNumberOfEmployees,
+		"totalHoursWorkedByASLMfg": totalHoursWorkedByASLMfg,
+		"totalHoursWorkedByOffice": totalHoursWorkedByOffice,
+		"totalHoursWorkedByContractors": totalHoursWorkedByContractors,
+		"restrictedWorkInjuries": restrictedWorkInjuries,
+		"totalDaysOnRestrictedWork": totalDaysOnRestrictedWork,
+		"lostTimeInjuries": lostTimeInjuries,
+		"totalDaysLostTime": totalDaysLostTime,
+		"conductedFieldLevelHazardAnalysis": conductedFieldLevelHazardAnalysis,
+		"conductedToolboxOrTailboardMeetings": conductedToolboxOrTailboardMeetings,
+		"reviewOrDevelopment": reviewOrDevelopment,
+		"conductedSafetyMeetings": conductedSafetyMeetings,
+		"observations": observations,
+		"documentedSafetyFocusedASLandClientManagementTours": documentedSafetyFocusedASLandClientManagementTours,
+		"equipmentAndBuildingInspections": equipmentAndBuildingInspections,
+		"JHSCMeetings": JHSCMeetings,
+		"orientations": orientations,
+		"totalDocumentedTrainingHours": totalDocumentedTrainingHours,
+		"employeeSafetyRecognitionPrograms": employeeSafetyRecognitionPrograms,
+		}],
 	};
 
-	var atcoInspection = Atcoinspection({
+	console.log(options.body);
+
+	var CorporateForm = Atcoinspection({
 		id: req.body["Work Location"],
 		type: "HSE-monthlystewardshipreport"
 	});
@@ -288,9 +336,9 @@ app.post('/webhook/monthlyhsestewardshipreport', (req, res) => {
 
 });
 
-	io.emit('newInspection', atcoInspection);
+	io.emit('newCorporateForm', CorporateForm);
 
-	atcoInspection.save().then((doc) => {
+	CorporateForm.save().then((doc) => {
 		res.send(doc);
 	}, (e) => {
 		res.status(400).send(e);
