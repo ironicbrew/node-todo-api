@@ -259,6 +259,44 @@ app.post('/webhook/craneinspections', (req, res) => {
 	});
 });
 
+app.post('/webhook/monthlyhsestewardshipreport', (req, res) => {
+
+	var today = new Date();
+	var location = req.body["Work Location"];
+	var type = "HSE-monthlystewardshipreport";
+
+	var options = {
+		method: 'POST',
+		uri: 'https://api.powerbi.com/beta/f1e31150-57dd-4b78-9208-3c24b9366a23/datasets/0d1a016e-8d44-4275-88e8-caa9543879fb/rows?key=UNmwLRjoLYyr7JmEX9uy5b4jwyLUNQ474zWqmabwgqgF65qBBOlMlhv1NkaCAl3L1HsIcmvayNeWRmU7KdSAdA%3D%3D',
+		json: true,
+		body: [{"location": location, "date": today}],
+	};
+
+	var atcoInspection = Atcoinspection({
+		id: req.body["Work Location"],
+		type: "HSE-monthlystewardshipreport"
+	});
+
+	request(options, (err, message, body) => {
+			if (!err) {
+				// console.log(message);
+				console.log('success');
+				// console.log(body);
+	} else {
+		console.log(err);
+	}
+
+});
+
+	io.emit('newInspection', atcoInspection);
+
+	atcoInspection.save().then((doc) => {
+		res.send(doc);
+	}, (e) => {
+		res.status(400).send(e);
+	});
+});
+
 app.post('/webhook/carrierinspections', (req, res) => {
 
 	var atcoInspection = Atcoinspection({
