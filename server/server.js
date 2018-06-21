@@ -19,6 +19,7 @@ var {authenticate} = require('./middleware/authenticate');
 var {Inspection} = require('./models/inspection');
 var {Atcoinspection} = require('./models/atco-inspection');
 var {cranes} = require('./models/cranes');
+var {globalLocations} = require('./models/work-locations');
 var {projects} = require('./models/projects')
 
 var app = express();
@@ -318,10 +319,8 @@ app.post('/webhook/monthlyhsestewardshipreport', (req, res) => {
 		}],
 	};
 
-	console.log(options.body);
-
 	var CorporateForm = Atcoinspection({
-		id: req.body["Work Location"],
+		name: req.body["Work Location"],
 		type: "HSE-monthlystewardshipreport"
 	});
 
@@ -487,6 +486,26 @@ app.get('/atcoinspections', (req, res) => {
 		}
 
 		res.render('atcodashboard.hbs', {cranes, completed, notCompleted});
+	}, (e) => {
+		res.status(400).send(e);
+	});
+});
+
+app.get('/corpdashboard', (req, res) => {
+	var now = new Date();
+	var thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+	Atcoinspection.find({date: {$gte: thisMonth}}).then((atcoinspections) => {
+
+		for (i = 0; i < atcoinspections.length ; i++) {
+			for (j = 0; j < globalLocations.length ; j++) {
+				if (atcoinspections[i].name === globalLocations[j].name) {
+				globalLocations[j]['status'] = true;
+				}
+			}
+		}
+
+		res.render('corpdashboard.hbs', {globalLocations});
 	}, (e) => {
 		res.status(400).send(e);
 	});

@@ -12,7 +12,8 @@ const _ = require('lodash');
 var Atcoinspection = mongoose.model('Atcoinspection', {
 	id: {type: String},
 	date: {type: Date, default: Date.now},
-	type: {type: String}
+	type: {type: String},
+	name: {type: String}
 });
 
 module.exports = {Atcoinspection};

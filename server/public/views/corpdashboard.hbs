@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+{{> head}}
+
+{{> bootstrap}}
+
+<body>
+
+		<script src="/socket.io/socket.io.js"></script>
+
+<!-- Page Title-->
+<div class="container">
+	<h1 align="center">Corporate Dashboard</h1>
+</div>
+
+<div style="margin: 21px;">
+<table style="width: 100%;border: 1px solid black;">
+	<tr>
+		<th style="border: 1px solid black;text-align: center">Location</th>
+		<th style="border: 1px solid black;text-align: center">Stewardship Complete?</th>
+	</tr>
+	{{#each globalLocations}}
+	<tr>
+		<td align="center" style="border: 1px solid black;">{{this.name}}</td>
+		<td id="{{this.name}}" align="center" style="border: 1px solid black;">{{#if this.status}}&#9989;{{else}}&#10060;{{/if}}</td>
+	</tr>
+	{{/each}}
+
+</table>
+<div>
+
+		<script>
+			var socket = io();
+
+			socket.on('connect', function () {
+				console.log('connected to server');
+			});
+
+			socket.on('newCorporateForm', function (corporateForm) {
+				console.log('new Inspection Recieved!', corporateForm.name);
+
+				var queryId = corporateForm.name;
+				console.log(queryId);
+
+			$(document).ready(function() {
+				// $(`td.[class=${queryId}]`).replaceWith('<td align="center" style="border: 1px solid black;">&#9989;</td>')
+				$(`[id='${queryId}']`).html("&#9989;")
+				});
+			});
+		</script>
+
+</body>
+</html>
