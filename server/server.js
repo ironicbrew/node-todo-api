@@ -283,7 +283,7 @@ app.post('/webhook/monthlyhsestewardshipreport', (req, res) => {
 	var equipmentAndBuildingInspections = req.body["Equipment and Building Inspections"];
 	var JHSCMeetings = req.body["Joint Health & Safety Committee Meetings (JHSC)"];
 	var orientations = req.body["Site/Facility HSE Orientations"];
-	var totalDocumentedTrainingHours  = req.body["Total Documented HSE Training Hours "];
+	var totalDocumentedTrainingHours  = req.body["Total Documented HSE Training Hours"];
 	var employeeSafetyRecognitionPrograms = req.body["Employee Safety Recognition Programs"];
 
 
