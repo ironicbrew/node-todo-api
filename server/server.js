@@ -445,9 +445,10 @@ app.post('/webhook/flha', (req, res) => {
 
 app.post('/webhook/taskcomplete', (req, res) => {
 
-	var status = req.body["Status"];
+	var status = undefined;
+	var taskStatus = req.body["Status"];
 
-	if (status === "In_Progress") {
+	if (taskStatus === "In_Progress") {
 		status = false
 	} else {
 		status = true
@@ -460,7 +461,7 @@ app.post('/webhook/taskcomplete', (req, res) => {
 		status: status
 	};
 
-	if (status === "Complete") {
+	if (taskStatus === "Complete") {
 		Project.findOne({id: req.body["Unit"]}).then((projectToUpdate) => {
 			var taskToUpdate = req.body["Task"];
 			var taskStepToUpdate = req.body["Task Step"];
@@ -473,6 +474,7 @@ app.post('/webhook/taskcomplete', (req, res) => {
 			}
 
 			projectToUpdate.save();
+
 		}), (e) => {
 			res.status(400).send(e);
 		}
