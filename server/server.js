@@ -549,7 +549,7 @@ app.get('/atcoinspections/leadingindicators', (req, res) => {
 
 app.get('/atcoprojects', (req, res) => {
 
-		res.render('leadingindicators.hbs', {projects});
+		res.render('projectdashboard.hbs', {projects});
 });
 
 app.get('/powerbi', (req, res) => {
