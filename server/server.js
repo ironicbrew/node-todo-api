@@ -445,6 +445,37 @@ app.post('/webhook/flha', (req, res) => {
 
 app.post('/webhook/taskcomplete', (req, res) => {
 
+	var now = new Date();
+	var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+	var options = {
+		method: 'POST',
+		uri: 'https://api.powerbi.com/beta/f1e31150-57dd-4b78-9208-3c24b9366a23/datasets/b9aba7dc-23f1-466e-b72f-1bae6a843d24/rows?key=aN%2BbhmsiT7oujtEak5pjsX5UCszbi6DFplxUWK2bw%2FQdEoqk4DgtzUKqG8bUV0%2Foyj0r74B%2BDW%2BMl4D7W6xhmQ%3D%3D',
+		json: true,
+		body: [{"Unit": req.body["Unit"],
+		"Task": req.body["Task"],
+		"Step": req.body["Step"],
+		"Status": req.body["Status"],
+		"Time": today
+	}],
+	};
+
+
+
+	request(options, (err, message, body) => {
+			if (!err) {
+				// console.log(message);
+				console.log('success');
+				// console.log(body);
+	} else {
+		console.log(err);
+	}
+
+});
+
+
+
+
 	var status = undefined;
 	var taskStatus = req.body["Status"];
 
