@@ -460,7 +460,25 @@ app.post('/webhook/taskcomplete', (req, res) => {
 		status: status
 	};
 
-	console.log(status);
+	if (status === "Complete") {
+		Project.findOne({id: req.body["Unit"]}).then((projectToUpdate) => {
+			var taskToUpdate = req.body["Task"];
+			var taskStepToUpdate = req.body["Task Step"];
+
+	// Sorts through the tasks in the project, finds the one the webhook is refering to and marks it as true
+			for (i = 0; i < projectToUpdate.tasks.length ; i++) {
+				if (projectToUpdate.tasks[i].name === taskToUpdate) {
+					projectToUpdate.tasks[i][taskStepToUpdate] = true;
+				}
+			}
+
+			projectToUpdate.save();
+		}), (e) => {
+			res.status(400).send(e);
+		}
+	}
+
+
 
 	io.emit('newTask', newTask);
 
