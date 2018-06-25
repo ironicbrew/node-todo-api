@@ -18,6 +18,7 @@ var {User} = require('./models/user');
 var {authenticate} = require('./middleware/authenticate');
 var {Inspection} = require('./models/inspection');
 var {Atcoinspection} = require('./models/atco-inspection');
+var {Project} = require('./models/project');
 var {cranes} = require('./models/cranes');
 var {globalLocations} = require('./models/work-locations');
 var {projects} = require('./models/projects')
@@ -549,31 +550,12 @@ app.get('/atcoinspections/leadingindicators', (req, res) => {
 
 app.get('/atcoprojects', (req, res) => {
 
-		res.render('projectdashboard.hbs', {projects});
-});
 
-app.get('/powerbi', (req, res) => {
-
-
-
-	request({
-		method: 'POST',
-		uri: 'https://api.powerbi.com/beta/f1e31150-57dd-4b78-9208-3c24b9366a23/datasets/78bf9043-9068-41a9-a57c-f19c303ac9cc/rows?key=yOEpwIZNXHsHTnJD4sgFXzD3USGHjMfk5s%2Fjqa0U3OuV5g%2BLbS1%2Fd9oPvDL3BuW9KWH8nd0jh%2FE3Gfda8AHQNQ%3D%3D',
-		json: true,
-		body: [{"Crane ID#": "Victory is mine", "Date Submitted" :"2018-05-15T19:33:06.970Z"}],
-	}, (err, message, body) => {
-			if (!err) {
-				// console.log(message);
-				console.log('success');
-				res.render('dashboard.hbs', {projects});
-				// console.log(body);
-	} else {
-		console.log(err);
-	}
-
-});
-
-
+		Project.find().then((projects) => {
+			res.render('projectdashboard.hbs', {projects});
+		}), (e) => {
+			res.status(400).send(e);
+		}
 
 });
 
