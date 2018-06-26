@@ -6,18 +6,20 @@
 {{> bootstrap}}
 
 <body>
-		
+
 		<script src="/socket.io/socket.io.js"></script>
 
 <!-- Page Title-->
 <div class="container">
 	<h1 align="center">Project Dashboard</h1>
+	<p>{{projects.tasks}}</p>
 </div>
 	{{#each projects}}
 <div style="margin: 20px;">
 <table style="width: 100%;border: 1px solid black;">
 	<tr>
 		<th style="border: 1px solid black;text-align: center">Unit #</th>
+		<th style="border: 1px solid black;text-align: center">Shop</th>
 		<th style="border: 1px solid black;text-align: center">Task</th>
 		<th style="border: 1px solid black;text-align: center">Prep</th>
 		<th style="border: 1px solid black;text-align: center">Material</th>
@@ -27,6 +29,7 @@
 	<tr>
 
 		<td align="center" style="border: 1px solid black;">{{../id}}</td>
+		<td align="center" style="border: 1px solid black;">{{this.shop}}</td>
 		<td align="center" style="border: 1px solid black;">{{this.name}}</td>
 		<td class={{../id}}-{{this.name}}-prep align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit={{../id}}&Task={{this.name}}&Task%20Step=prep&Status=In_Progress target="_blank">{{#if this.prep}}&#9989;{{else}}&#10060;{{/if}}</a></td>
 		<td class={{../id}}-{{this.name}}-material align="center" style="border: 1px solid black;"><a href=https://atcosl.formstack.com/forms/production_task_complete?Unit={{../id}}&Task={{this.name}}&Task%20Step=material&Status=In_Progress target="_blank">{{#if this.material}}&#9989;{{else}}&#10060;{{/if}}</a></td>
@@ -41,6 +44,8 @@
 
 
 		<script>
+
+			console.log(projects);
 			var socket = io();
 
 			socket.on('newTask', function (task) {

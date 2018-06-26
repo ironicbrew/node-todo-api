@@ -5,7 +5,7 @@ var Project = mongoose.model('Project', {
 		type: String,
 	},
 	tasks: [
-		{name: String, prep: Boolean, material: Boolean, install: Boolean},
+		{name: String, shop: String, prep: Boolean, material: Boolean, install: Boolean},
 	]
 	});
 

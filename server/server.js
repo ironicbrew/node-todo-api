@@ -610,4 +610,16 @@ app.get('/atcoprojects', (req, res) => {
 
 });
 
+// app.get('/atcoprojects/:shop', (req, res) => {
+//
+// 		var shop = req.params.shop
+//
+// 		Project.find({tasks[]}).then((projects) => {
+// 			res.render('projectdashboard.hbs', {projects});
+// 		}), (e) => {
+// 			res.status(400).send(e);
+// 		}
+//
+// });
+
 module.exports = {app};
